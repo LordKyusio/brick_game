@@ -7,10 +7,10 @@ class AbstractGameMode:
 
         # Graphics
         self.px1 = 24
-        self.on_pixel = pygame.image.load('graphics/active_pixel.png')
-        self.off_pixel = pygame.image.load('graphics/off_pixel.png')
-        self.background_row = pygame.image.load('graphics/empty_row.png')
-        self.font = pygame.font.Font('font/Segment7-4Gml.otf', 12)
+        self.on_pixel = pygame.image.load('assets/graphics/active_pixel.png')
+        self.off_pixel = pygame.image.load('assets/graphics/off_pixel.png')
+        self.background_row = pygame.image.load('assets/graphics/empty_row.png')
+        self.font = pygame.font.Font('assets/font/Segment7-4Gml.otf', 12)
 
         # pygame main
         self.screen = screen

@@ -1,6 +1,6 @@
 import pygame
-import racer
-from abstract_mode import AbstractGameMode
+from modules import racer_mode
+from modules.abstract_mode import AbstractGameMode
 
 
 class MainMenu(AbstractGameMode):
@@ -11,6 +11,7 @@ class MainMenu(AbstractGameMode):
         self.clock = pygame.time.Clock()
         super().__init__(self.screen, self.clock)
         pygame.display.set_caption("Brick Game")
+        self.mode_loop()
 
     def main_controls(self):
         """temporary solution"""
@@ -19,9 +20,9 @@ class MainMenu(AbstractGameMode):
                 self.running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    self.running = racer.RacerGame(self.screen, self.clock).__main__()
+                    self.running = racer_mode.RacerGame(self.screen, self.clock).mode_loop()
 
-    def __main__(self):
+    def mode_loop(self):
         next_step = True
         while self.running:
             self.clock.tick(60)
@@ -30,6 +31,3 @@ class MainMenu(AbstractGameMode):
             next_step = self.step_controller(self.current_speed, self.is_turbo)
             self.main_controls()
             pygame.display.update()
-
-
-MainMenu().__main__()

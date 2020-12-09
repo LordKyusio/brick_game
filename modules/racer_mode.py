@@ -1,11 +1,11 @@
 import pygame
 from random import randint
-from abstract_mode import AbstractGameMode
+from modules.abstract_mode import AbstractGameMode
 
 
 class Car:
     def __init__(self, screen, px1, car_x, car_y):
-        self.on_pixel = pygame.image.load('graphics/active_pixel.png')
+        self.on_pixel = pygame.image.load('assets/graphics/active_pixel.png')
         self.screen = screen
         self.px1 = px1
         self.car_x = car_x
@@ -114,7 +114,7 @@ class RacerGame(AbstractGameMode):
                     if self.speed_score == 100 and self.current_speed < 10:
                         self.current_speed += 1
 
-    def __main__(self):
+    def mode_loop(self):
         while self.running is True:
             self.clock.tick(60)
             next_step = self.step_controller(self.current_speed, self.is_turbo)
