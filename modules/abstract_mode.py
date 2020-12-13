@@ -28,6 +28,7 @@ class AbstractGameMode:
         self.lives = 4
         self.start_speed = speed
         self.current_speed = self.start_speed
+        self.player_action = True
 
         # colors
         self.black = (0, 0, 0)
@@ -89,25 +90,25 @@ class AbstractGameMode:
         self.running = False
 
     def pause_mode(self, clock):
-        pause_text_on = self.text_font.render('PAUSE', True, self.black)
-        pause_rect = pause_text_on.get_rect()
-        pause_rect.center = (13 * self.px1, 16 * self.px1)
-        self.screen.blit(pause_text_on, pause_rect)
-        while self.is_pause:
-            clock.tick(60)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                    return
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        self.is_pause = False
-                    if event.key == pygame.K_r:
+        if self.is_pause:
+            pause_text_on = self.text_font.render('PAUSE', True, self.black)
+            pause_rect = pause_text_on.get_rect()
+            pause_rect.center = (13 * self.px1, 16 * self.px1)
+            self.screen.blit(pause_text_on, pause_rect)
+            while self.is_pause:
+                clock.tick(60)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
                         self.running = False
-                        self.main_menu = True
-            pygame.display.update()
-
-
+                        return
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            self.is_pause = False
+                        if event.key == pygame.K_r:
+                            self.running = False
+                            self.main_menu = True
+                pygame.display.update()
+            self.player_action = True
 
     def step_controller(self, speed, is_turbo):
         self.tick += 1

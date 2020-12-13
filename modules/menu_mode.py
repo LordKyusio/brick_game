@@ -10,7 +10,6 @@ class MainMenu(AbstractGameMode):
         self.screen = pygame.display.set_mode((16 * self.px1, 20 * self.px1))
         self.clock = pygame.time.Clock()
         self.current_speed = 1
-        self.player_action = True
         super().__init__(self.screen, self.clock)
         pygame.display.set_caption("Brick Game")
         self.mode_loop()
