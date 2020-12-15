@@ -48,17 +48,12 @@ class EnemyCarController:
 
 
 class RacerGame(AbstractGameMode):
-    def __init__(self, screen, clock):
-        super().__init__(screen, clock)
-        self.player_moved = True
+    def __init__(self, *args):
+        super().__init__(*args)
         self.bound_position = 0
 
         self.player = Car(self.screen, self.px1, 0, 16)
         self.enemy_controller = EnemyCarController(self.screen, self.px1)
-
-        self.score_text = self.font.render(str(self.score), True, (0, 0, 0))
-        self.textRect = self.score_text.get_rect()
-        self.textRect.center = (100, 100)
 
     def main_controls(self):
         for event in pygame.event.get():
@@ -70,10 +65,10 @@ class RacerGame(AbstractGameMode):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT and self.player.car_x != 1:
                     self.player.car_x = 1
-                    self.player_moved = True
+                    self.player_action = True
                 if event.key == pygame.K_LEFT and self.player.car_x != 0:
                     self.player.car_x = 0
-                    self.player_moved = True
+                    self.player_action = True
                 if event.key == pygame.K_ESCAPE:
                     self.running = False
                 if event.key == pygame.K_SPACE:
@@ -104,25 +99,28 @@ class RacerGame(AbstractGameMode):
                 self.enemy_controller.spawn_cars()
                 self.current_speed = self.start_speed
                 self.speed_score = 0
-                self.player_moved = True
+                self.player_action = True
                 if self.lives < 0:
                     self.game_over(self.screen, self.clock)
             if enemy.car_x != self.player.car_x and (enemy.car_y == 19):
-                if next_step:
+                if next_step and self.score < 10000:
                     self.score += 1
                     self.speed_score += 1
                     if self.speed_score == 100 and self.current_speed < 10:
                         self.current_speed += 1
+                        self.speed_score = 0
 
     def mode_loop(self):
         while self.running is True:
             self.clock.tick(60)
             next_step = self.step_controller(self.current_speed, self.is_turbo)
-            self.pause_mode(self.clock)
+            if self.is_pause:
+                self.pause_mode(self.clock)
+                self.player_action = True
             self.main_controls()
             self.win_loose_controller(next_step)
 
-            if self.player_moved or next_step:
+            if self.player_action or next_step:
                 self.display_background(self.screen)
                 self.enemy_controller.move(next_step)
                 self.player.display_car(self.player.car_x, 16)
@@ -130,5 +128,5 @@ class RacerGame(AbstractGameMode):
                 self.display_score()
                 self.display_lives()
             pygame.display.update()
-            self.player_moved = False
+            self.player_action = False
         return self.main_menu
