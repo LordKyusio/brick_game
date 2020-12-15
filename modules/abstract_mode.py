@@ -85,7 +85,8 @@ class AbstractGameMode:
             if step:
                 for pixel in range(0, 10):
                     screen.blit(self.on_pixel, (pixel * self.px1, line * self.px1))
-            pygame.display.update()
+                pygame.display.update()
+        self.player_action = False
         self.main_menu = True
         self.running = False
 
