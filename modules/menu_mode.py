@@ -37,7 +37,6 @@ class MainMenu(AbstractGameMode):
             self.main_controls()
             if next_step or self.player_action:
                 x += 1
-                print(x)
                 self.display_background(self.screen)
                 self.display_score()
                 self.menu_animations.next_step = next_step
